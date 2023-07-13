@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-web
+  labels:
+    app: web
+spec:
+  volumes:
+    - name: app
+      emptyDir: {}
+  containers:
+    - name: my-container
+      image: ildarvildanovich/kubernetes-intro:1
+      volumeMounts:
+        - name: app
+          mountPath: /app
+  initContainers:
+    - name: init-container-1
+      image: busybox:latest
+      volumeMounts:
+        - name: app
+          mountPath: /app
+      command: ['sh', '-c', 'wget -O- https://tinyurl.com/otus-k8s-intro | sh']
